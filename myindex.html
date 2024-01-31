@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="./myindex.css" type="text/css"> -->
+    <link rel="stylesheet" href="./Line awesome/css/line-awesome.css">
+    <title>Task List</title>
+</head>
+<style>
+    .container{
+    width: 70%;
+    margin: auto;
+    /* padding: 1em; */
+    box-shadow: 0px 0px 8px #888;
+}
+.add_task{
+    font-size: 25px;
+}
+.task_content{
+    padding: 2em;
+    height: 155px;
+    line-height: 44px;
+    box-shadow: 0px 0px 6px #888;
+}
+.inps{
+    width: 90%;
+    border: none;
+    height: 25px;
+    border-bottom: solid 1px #000;
+}
+.task_title{
+    padding: 2em;
+    line-height: 45px;
+}
+.btn{
+    width: 150px;
+    cursor: pointer;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    height: 40px;
+    background-color: #000;
+}
+.btn1{
+    background-color: #26a69a;
+    margin-left: 30px;
+    width: 115px;
+}
+.collection a{
+    text-decoration: none;
+    text-align: center;   
+}
+ul{
+    list-style-type: none;
+}
+ul li{
+    box-sizing: border-box;
+    padding: 1.5px;
+    font-size: 20px;
+    width: 90%;
+    display: inline-block;
+    height: 40px;
+    background-color: #ccc;
+}
+.la-times-circle{
+    font-size: 25px;
+    float: right;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+</style>
+<body>
+    <div class="container">
+    <div class="task_content">
+        <div class="add_task">
+        Task
+        </div>
+        <form class="task_form">
+            <label for="task">New Task</label> <br>
+            <input type="text" name="task" id="task" class="inps"> <br>
+            <input type="submit" class="btn btn1" value="Add Task">
+        </form>
+    </div>
+        <div class="task_title">
+            <div class="add_task">
+                Task List
+                </div>
+                <div class="input_field">
+                    <label for="task">Filter</label> <br>
+                    <input type="text" name="filter" id="filter" class="inps">
+                </div>
+            <ul class="collection">
+            </ul>
+            <input type="button" class="clear-tasks btn" value="Clear Task">
+        </div>
+    </div>
+</body>
+<script>
+const form= document.querySelector('.task_form')
+const task= document.querySelector('#task');
+const addtask= document.querySelector('.btn1');
+const tasklist= document.querySelector('ul');
+const clr= document.querySelector('.clear-tasks');
+const filter= document.querySelector('#filter');
+
+
+loadevent();
+function loadevent(){
+    form.addEventListener('submit', event1);
+    tasklist.addEventListener('click', deltask);
+    clr.addEventListener('click', clear);
+    filter.addEventListener('keyup', filt);
+};
+
+// addtask.addEventListener('click', event1)
+function event1(e){
+    if(task.value==""){
+        alert("Add a task");
+    }
+    else{
+        const li= document.createElement('li');
+li.className= 'task-collection'
+let item= document.createTextNode(task.value);
+li.appendChild(item);
+tasklist.appendChild(li);
+task.value="";
+let del= document.createElement('a');
+del.className= "delete-item";
+del.innerHTML= "<i class='las la-times-circle'></i>"
+li.appendChild(del);
+    e.preventDefault();
+    }
+};
+function deltask(e){
+    if(e.target.parentElement.classList.contains('delete-item')){
+        e.target.parentElement.parentElement.remove();
+    }
+}
+function clear(){
+    tasklist.innerHTML= "";
+}
+function filt(e){
+    const text = e.target.value.toLowerCase();
+    console.log(text);
+    document.querySelectorAll('.task-collection').forEach( function(tasks){
+        const item = tasks.firstElementChild.textContent.toLowerCase();
+        if(item.indexOf(text) != -1){
+        tasks.style.display= "block";
+        // console.log(tasks)
+    }
+    else{
+        tasks.style.display= "none";
+    }
+    });
+}
+
+</script>
+</html>
